@@ -101,6 +101,21 @@
                                     <action selector="stopButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iXf-Xe-RzY"/>
                                 </connections>
                             </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gaY-k8-FII">
+                                <rect key="frame" x="272" y="90" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="7Vy-ou-C04"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="rGW-vC-bY7"/>
+                            </scrollView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="jn9-ur-Ggq">
+                                <rect key="frame" x="334" y="478" width="117" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="pageIndicatorTintColor" systemColor="opaqueSeparatorColor"/>
+                                <color key="currentPageIndicatorTintColor" systemColor="labelColor"/>
+                                <connections>
+                                    <action selector="change:" destination="BYZ-38-t0r" eventType="valueChanged" id="lOX-JE-vkt"/>
+                                </connections>
+                            </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -112,6 +127,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="LhH-aD-afy"/>
                     <connections>
+                        <outlet property="Pc" destination="jn9-ur-Ggq" id="5US-hF-Zf8"/>
+                        <outlet property="Sv" destination="gaY-k8-FII" id="U9Z-k1-oZp"/>
                         <outlet property="stopBtn" destination="QRE-AP-t6a" id="gH9-4P-OyQ"/>
                         <outlet property="tableView" destination="9b3-V8-Ad2" id="Y2f-Qx-rIy"/>
                         <outlet property="timer" destination="82w-eJ-Izv" id="ULQ-xe-E4e"/>
@@ -123,6 +140,12 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

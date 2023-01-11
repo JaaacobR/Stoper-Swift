@@ -92,10 +92,18 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-class ViewController: UIViewController {
+
+
+class ViewController: UIViewController, UIScrollViewDelegate {
     
-        
+    @IBOutlet weak var Sv: UIScrollView!
     
+    @IBOutlet weak var Pc: UIPageControl!
+    
+    var slides = Array<Any>()
+    
+    
+  
     
     var isActive = false
     @IBOutlet weak var stopBtn: UIButton!
@@ -103,18 +111,49 @@ class ViewController: UIViewController {
     var timerInterval:Timer = Timer()
     
    
-
+    @IBAction func change(_ sender: Any) {
+        let x = CGFloat((sender as AnyObject).currentPage) * view.frame.width
+            Sv.contentOffset = CGPoint(x: x, y: 0)
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var timer: UILabel!
-    @IBAction func stopButtonClick(_ sender: Any) {
-        
-        
+    @IBAction func stopButtonClick(_ sender: Any) {}
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageIndex = round(Sv.contentOffset.x/view.frame.width)
+        Pc.currentPage = Int(pageIndex)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        Sv.delegate = self
         
+        Sv.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/3)
+        Sv.isPagingEnabled = true    // w przypadku dwóch widoków - nadmiarowe
+
+        // odpowiednie paski przewijania
+        Sv.showsVerticalScrollIndicator = false
+        Sv.showsHorizontalScrollIndicator = false
+        
+        
+        let slideA : SlideA = Bundle.main.loadNibNamed("SlideA", owner: self, options: nil)?.first as! SlideA
+        let slideB : SlideB = Bundle.main.loadNibNamed("SlideB", owner: self, options: nil)?.first as! SlideB
+
+        slideA.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/3)
+        slideB.frame = CGRect(x: view.frame.width, y: 0, width: view.frame.width, height: view.frame.height / 3)
+        print(view.frame.width)
+                
+        slides = [slideA, slideB]
+        
+        Sv.addSubview(slideA)
+        Sv.addSubview(slideB)
+        
+        Sv.contentSize = CGSize(width: view.frame.width*2, height: view.frame.height/3)
+        Pc.numberOfPages = slides.count
+
         // Do any additional setup after loading the view
         
         
@@ -151,6 +190,7 @@ class ViewController: UIViewController {
         }else{
             timerInterval = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(update), userInfo: nil, repeats: true)
             isActive = true
+            RunLoop.current.add(timerInterval, forMode: .common)
         }
         
     }
@@ -165,7 +205,9 @@ class ViewController: UIViewController {
             dF.setLocalizedDateFormatFromTemplate("mm:ss:SS")
             let format = dF.string(from: dateToFormat)
             
-            timer.text = format
+            // timer.text = format
+        (slides[0] as AnyObject).time.text = format
+        (slides[1] as! SlideB).drawClock(time: time)
   
     }
 }
